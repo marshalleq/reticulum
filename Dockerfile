@@ -19,6 +19,7 @@ COPY --from=builder /usr/local/bin/nomadnet /usr/local/bin/nomadnet
 COPY --from=builder /usr/local/bin/lxmd /usr/local/bin/lxmd
 
 COPY entrypoint.sh /entrypoint.sh
+COPY config-example /config-example
 RUN chmod +x /entrypoint.sh
 
 ENV PUID=1000

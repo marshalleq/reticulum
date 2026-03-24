@@ -15,6 +15,12 @@ fi
 
 # Ensure directories exist and have correct ownership
 mkdir -p /config/storage /logs
+
+# Copy example config if no config exists
+if [ ! -f /config/config ]; then
+    cp /config-example /config/config
+fi
+
 chown -R "$PUID:$PGID" /config /logs
 
 # If /logs is mounted, tee output to a log file and stdout
