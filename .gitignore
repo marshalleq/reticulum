@@ -1,0 +1,32 @@
+# Reticulum config and state (only track the example)
+config
+storage/
+
+# Logs
+logs/
+*.log
+
+# AI tool files
+.claude/
+.cursor/
+.copilot/
+.aider*
+.codeium/
+.continue/
+
+# macOS
+.DS_Store
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+
+# IDE
+.vscode/
+.idea/
+
+# Docker build artifacts
+*.tar
