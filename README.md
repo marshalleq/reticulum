@@ -11,9 +11,10 @@ docker run -d \
   -v /path/to/your/logs:/logs \
   -e PUID=1000 \
   -e PGID=1000 \
+  -e TZ=Pacific/Auckland \
   --log-opt max-size=10m \
   --log-opt max-file=3 \
-  ghcr.io/YOUR_USERNAME/reticulum-docker:main
+  ghcr.io/marshalleq/reticulum:main
 ```
 
 ## Included applications
@@ -41,9 +42,10 @@ docker run -d \
   -v /path/to/logs:/logs \
   -e PUID=1000 \
   -e PGID=1000 \
+  -e TZ=Pacific/Auckland \
   --log-opt max-size=10m \
   --log-opt max-file=3 \
-  ghcr.io/marshalleq/reticulum-docker:main \
+  ghcr.io/marshalleq/reticulum:main \
   nomadnet
 
 # Run LXMF propagation daemon
@@ -53,15 +55,16 @@ docker run -d \
   -v /path/to/logs:/logs \
   -e PUID=1000 \
   -e PGID=1000 \
+  -e TZ=Pacific/Auckland \
   --log-opt max-size=10m \
   --log-opt max-file=3 \
-  ghcr.io/marshalleq/reticulum-docker:main \
+  ghcr.io/marshalleq/reticulum:main \
   lxmd
 
 # Run a one-off diagnostic command
 docker run --rm \
   -v /path/to/config:/config \
-  ghcr.io/marshalleq/reticulum-docker:main \
+  ghcr.io/marshalleq/reticulum:main \
   rnstatus --config /config
 ```
 
@@ -90,6 +93,7 @@ cp config-example /path/to/config/config
 | `PUID` | `1000` | User ID that rnsd runs as inside the container |
 | `PGID` | `1000` | Group ID that rnsd runs as inside the container |
 | `RNS_LOGLEVEL` | `4` | Log level (0=critical, 7=verbose) |
+| `TZ` | `UTC` | Timezone for log timestamps (e.g. `Pacific/Auckland`, `Australia/Sydney`) |
 
 ### Logging
 
@@ -130,11 +134,12 @@ docker run -d \
   -v /path/to/logs:/logs \
   -e PUID=1000 \
   -e PGID=1000 \
+  -e TZ=Pacific/Auckland \
   -p 37428:37428 \
   -p 4242:4242 \
   --log-opt max-size=10m \
   --log-opt max-file=3 \
-  ghcr.io/YOUR_USERNAME/reticulum-docker:main
+  ghcr.io/marshalleq/reticulum:main
 ```
 
 ### User/group mapping
@@ -166,9 +171,10 @@ docker run -d \
   -v /path/to/logs:/logs \
   -e PUID=1000 \
   -e PGID=1000 \
+  -e TZ=Pacific/Auckland \
   --log-opt max-size=10m \
   --log-opt max-file=3 \
-  ghcr.io/YOUR_USERNAME/reticulum-docker:main
+  ghcr.io/marshalleq/reticulum:main
 ```
 
 With `--network host`, port mapping flags (`-p`) are not needed — all ports are directly accessible.
@@ -187,7 +193,7 @@ docker buildx build --platform linux/amd64,linux/arm64 -t reticulum .
 
 ## GitHub Actions
 
-The included workflow at `.github/workflows/build.yml` automatically builds and pushes multi-arch images to GitHub Container Registry on pushes to `main` and on version tags (`v*`).
+The included workflow at `.github/workflows/build.yml` automatically builds and pushes multi-arch images to GitHub Container Registry on pushes to `main` and on version tags (`v*`). A scheduled weekly rebuild (Monday 04:00 UTC) keeps the base image and packages up to date.
 
 To use it:
 1. Push this directory as its own GitHub repository
@@ -206,8 +212,10 @@ docker run -d \
   -v ./logs:/logs \
   -e PUID=1000 \
   -e PGID=1000 \
+  -e TZ=Pacific/Auckland \
   --log-opt max-size=10m \
   --log-opt max-file=3 \
+  --restart unless-stopped \
   reticulum
 ```
 
